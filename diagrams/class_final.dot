@@ -1,0 +1,23 @@
+digraph C {
+graph [rankdir=TB, bgcolor="white", pad=0.2, nodesep=0.35, ranksep=0.45];
+node [shape=record, style="filled", fontname="Times New Roman", fontsize=10, color="#2F5597", fillcolor="#F7FBFF"];
+edge [fontname="Times New Roman", fontsize=9, color="#555555"];
+p [label="{Product|- id String\l- name String\l- price double\l|+ Product(String,String,double)\l+ getId() String\l+ getName() String\l+ getPrice() double\l+ equals(Object) boolean\l}"];
+e [label="{Employee\n«record»|- id String\l- fullName String\l|+ Employee(String,String)\l}"];
+r [label="{OrderRules|+ MIN_QUANTITY int\l+ MAX_QUANTITY int\l|+ checkQuantity(long)\l}"];
+oi [label="{OrderItem|- product Product\l- quantity int\l|+ OrderItem(Product,int)\l~ increase(int)\l+ getProduct() Product\l+ getQuantity() int\l+ getLineTotal() double\l}"];
+o [label="{Order|- employee Employee\l- items List[OrderItem]\l- status OrderStatus\l|+ Order(Employee)\l+ addProduct(Product,int)\l+ removeProduct(String)\l+ total() double\l+ canConfirm() boolean\l+ confirm()\l+ getItems() List[OrderItem]\l+ getStatus() OrderStatus\l}"];
+st [label="{OrderStatus\n«enumeration»|DRAFT\lCONFIRMED\l}"];
+s [label="{OrderService||+ createOrder(Employee) Order\l+ validateForConfirm(Order)\l+ confirmOrder(Order)\l}"];
+l [label="{OrderCsvLoader||+ load(Path,Order) Result\l+ load(List[String],Order) Result\l}"];
+m [label="{Main||+ main(String[])\l}"];
+o -> e [label="1",arrowtail=odiamond,dir=both];
+o -> oi [label="0..*",arrowtail=diamond,dir=both];
+oi -> p [label="1",arrowtail=odiamond,dir=both];
+o -> st [label="status",arrowhead=open];
+oi -> r [label="uses",style=dashed,arrowhead=open];
+s -> o [label="uses",style=dashed,arrowhead=open];
+l -> o [label="fills",style=dashed,arrowhead=open];
+m -> s [label="uses",style=dashed,arrowhead=open];
+m -> l [label="uses",style=dashed,arrowhead=open];
+}
